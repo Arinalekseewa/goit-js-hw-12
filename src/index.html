@@ -4,20 +4,35 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>Search Image App</title>
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@2.0.0/modern-normalize.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet">
   </head>
   <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
 
     <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
+      <form>
+        <input id="input" class="input-search" type="text" placeholder="Search images...">
+        <button class="btn-search" type="submit">Search</button>
+      </form>
+      
+      <p id="loading-message" style="display: none;">Loading images, please wait...</p>
+      
+      <div>
+        <ul class="gallery"></ul>
+      </div>
+
+      <div class="btn-cont">
+        <button class="btn-loadmore" type="submit" style="display: none;">Load more</button>
+      </div>
     </main>
 
-    <load src="./partials/footer.html" />
-
     <script type="module" src="./main.js"></script>
+    <script type="module" src="./js/pixabay-api.js"></script>
+    <script type="module" src="./js/render-fuctions.js"></script>
   </body>
 </html>
