@@ -4,7 +4,7 @@ import { axiosImages } from "./js/pixabay-api";
 import { displayImages } from "./js/render-fuctions";
 
 const form = document.querySelector("form");
-const loadingMessage = document.getElementById("loading-message");
+const loadingMessage = document.getElementById("#loading-message");
 const btnLoadMore = document.querySelector(".btn-loadmore");
 
 let currentPage = 1;
@@ -31,12 +31,14 @@ form.addEventListener("submit", async (evt) => {
     userQuery = inputValue;
 
     if (inputValue !== previousSearch) {
-        currentPage = 1; // Скидаємо номер сторінки при новому пошуку
+        currentPage = 1;
         previousSearch = inputValue;
     }
 
     btnLoadMore.style.display = "none";
     if (loadingMessage) loadingMessage.style.display = "block";
+    console.log("Loading message shown");
+
 
     try {
         const { images, totalHits } = await axiosImages(userQuery, currentPage);
@@ -65,9 +67,7 @@ form.addEventListener("submit", async (evt) => {
             btnLoadMore.style.display = "block";
         }
 
-        currentPage++; // Збільшуємо номер сторінки після запиту
-
-        scrollToNextImages();
+        currentPage++;
 
     } catch (error) {
         iziToast.error({
@@ -86,6 +86,7 @@ form.addEventListener("submit", async (evt) => {
 
 btnLoadMore.addEventListener("click", async () => {
     if (loadingMessage) loadingMessage.style.display = "block";
+    console.log("Loading message shown");
 
     try {
         const { images, totalHits } = await axiosImages(userQuery, currentPage);
