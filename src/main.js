@@ -4,7 +4,8 @@ import { axiosImages } from "./js/pixabay-api";
 import { displayImages } from "./js/render-fuctions";
 
 const form = document.querySelector("form");
-const loadingMessage = document.getElementById("#loading-message");
+const loadingMessage = document.querySelector(".loader");
+const loadingBottom = document.querySelector(".loader-bottom");
 const btnLoadMore = document.querySelector(".btn-loadmore");
 
 let currentPage = 1;
@@ -35,10 +36,11 @@ form.addEventListener("submit", async (evt) => {
         previousSearch = inputValue;
     }
 
+    if (loadingMessage) {
+        loadingMessage.style.display = "block";
+        console.log("Loading message shown");
+    };
     btnLoadMore.style.display = "none";
-    if (loadingMessage) loadingMessage.style.display = "block";
-    console.log("Loading message shown");
-
 
     try {
         const { images, totalHits } = await axiosImages(userQuery, currentPage);
@@ -77,16 +79,21 @@ form.addEventListener("submit", async (evt) => {
             backgroundColor: "#EF4040"
         });
     } finally {
-        if (loadingMessage) loadingMessage.style.display = "none";
-    }
+        if (loadingMessage) {
+            loadingMessage.style.display = "none";
+        }
+    };
 
     form.reset();
 });
 
 
 btnLoadMore.addEventListener("click", async () => {
-    if (loadingMessage) loadingMessage.style.display = "block";
-    console.log("Loading message shown");
+    if (loadingBottom) {
+        btnLoadMore.style.display = "none";
+        loadingBottom.style.display = "block";
+        console.log("Loading bottom message shown");
+    };
 
     try {
         const { images, totalHits } = await axiosImages(userQuery, currentPage);
@@ -115,8 +122,10 @@ btnLoadMore.addEventListener("click", async () => {
             backgroundColor: "#EF4040"
         });
     } finally {
-        if (loadingMessage) loadingMessage.style.display = "none";
-    }
+        if (loadingBottom) {
+            loadingBottom.style.display = "none";
+        }
+    };
 });
 
 function scrollToNextImages() {
