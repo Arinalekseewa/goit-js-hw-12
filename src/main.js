@@ -124,6 +124,7 @@ btnLoadMore.addEventListener("click", async () => {
     } finally {
         if (loadingBottom) {
             loadingBottom.style.display = "none";
+            btnLoadMore.style.display = "block";
         }
     };
 });
