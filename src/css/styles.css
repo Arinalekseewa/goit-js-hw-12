@@ -88,7 +88,7 @@ img {
   }
 }
 
-form {
+.form {
   position: relative;
   display: flex;
   justify-content: center;
@@ -195,15 +195,14 @@ strong {
   background-color: #6C8CFF;
 }
 
-.loader-cont,
-.loader-bottom-cont {
+.loader {
   position: absolute;
   display: flex;
   justify-content: center;
   left: 50%;
 }
 
-.loader,
+.loader-first,
 .loader-bottom {
   width: 48px;
   height: 48px;
