@@ -4,14 +4,19 @@ import { axiosImages } from "./js/pixabay-api";
 import { displayImages } from "./js/render-functions";
 
 const form = document.querySelector("form");
-const loadingMessage = document.querySelector(".loader");
+const loadingMessage = document.querySelector(".loader-first");
 const loadingBottom = document.querySelector(".loader-bottom");
 const btnLoadMore = document.querySelector(".btn-loadmore");
+const gallery = document.querySelector('.gallery');
 
 let currentPage = 1;
 let previousSearch = "";
 let userQuery = "";
 let totalHits = 0;
+
+function clearGallery() {
+    gallery.innerHTML = "";
+}
 
 form.addEventListener("submit", async (evt) => {
     evt.preventDefault();
@@ -34,13 +39,13 @@ form.addEventListener("submit", async (evt) => {
     if (inputValue !== previousSearch) {
         currentPage = 1;
         previousSearch = inputValue;
+        gallery.innerHTML = "";
+        btnLoadMore.style.display = "block";
     }
 
     if (loadingMessage) {
         loadingMessage.style.display = "block";
-        console.log("Loading message shown");
     };
-    btnLoadMore.style.display = "none";
 
     try {
         const { images, totalHits } = await axiosImages(userQuery, currentPage);
@@ -55,16 +60,17 @@ form.addEventListener("submit", async (evt) => {
             return;
         }
 
+        clearGallery();
         displayImages(images, currentPage);
 
-        if (currentPage * 40 >= totalHits) {
-            btnLoadMore.style.display = "none";
+        if (currentPage * 15 >= totalHits) {
             iziToast.error({
                 message: "We're sorry, but you've reached the end of search results.",
                 position: "topRight",
                 messageColor: "#FAFAFB",
                 backgroundColor: "#EF4040"
             });
+            btnLoadMore.style.display = "none";
         } else {
             btnLoadMore.style.display = "block";
         }
@@ -90,10 +96,9 @@ form.addEventListener("submit", async (evt) => {
 
 btnLoadMore.addEventListener("click", async () => {
     if (loadingBottom) {
-        btnLoadMore.style.display = "none";
         loadingBottom.style.display = "block";
         console.log("Loading bottom message shown");
-    };
+    }
 
     try {
         const { images, totalHits } = await axiosImages(userQuery, currentPage);
@@ -102,14 +107,16 @@ btnLoadMore.addEventListener("click", async () => {
             displayImages(images, currentPage);
             currentPage++;
 
-            if (currentPage * 40 >= totalHits) {
-                btnLoadMore.style.display = "none";
+            if (currentPage * 15 >= totalHits) {
                 iziToast.error({
                     message: "We're sorry, but you've reached the end of search results.",
                     position: "topRight",
                     messageColor: "#FAFAFB",
                     backgroundColor: "#EF4040"
                 });
+                btnLoadMore.style.display = "none";
+            } else {
+                btnLoadMore.style.display = "block";
             }
 
             scrollToNextImages();
@@ -124,10 +131,10 @@ btnLoadMore.addEventListener("click", async () => {
     } finally {
         if (loadingBottom) {
             loadingBottom.style.display = "none";
-            btnLoadMore.style.display = "block";
         }
-    };
+    }
 });
+
 
 function scrollToNextImages() {
     const firstImageCard = document.querySelector(".img-card");

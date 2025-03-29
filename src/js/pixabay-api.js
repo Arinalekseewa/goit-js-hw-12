@@ -13,7 +13,7 @@ export async function axiosImages(query, currentPage = 1) {
                 orientation: "horizontal",
                 safesearch: "true",
                 page: currentPage,
-                per_page: 40
+                per_page: 15
             },
         });
 
