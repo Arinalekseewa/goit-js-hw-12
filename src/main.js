@@ -34,8 +34,12 @@ form.addEventListener("submit", async (evt) => {
         currentPage = 1;
         previousSearch = inputValue;
         userQuery = inputValue;
+
+        // Очищаємо галерею при новому пошуку
         clearGallery();
-        btnLoadMore.style.display = "none"; // Ховаємо кнопку перед новим пошуком
+
+        // Приховуємо кнопку "Load More" при новому пошуку
+        btnLoadMore.style.display = "none";
     }
 
     if (loadingMessage) loadingMessage.style.display = "block"; // Показуємо лоадер
