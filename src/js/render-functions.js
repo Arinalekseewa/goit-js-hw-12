@@ -15,8 +15,7 @@ export function clearGallery() {
 }
 
 export function displayImages(images) {
-    clearGallery(); // Очищення галереї перед додаванням нових зображень
-
+    // Оновлення markup без очищення галереї
     const markup = images
         .map(
             (image) => `
@@ -38,6 +37,7 @@ export function displayImages(images) {
         )
         .join("");
 
+    // Додаємо нові зображення під старими
     gallery.insertAdjacentHTML('beforeend', markup);
 
     // Оновлення lightbox після додавання нових зображень
