@@ -8,7 +8,7 @@ const lightbox = new SimpleLightbox(".gallery a", {
     captionDelay: 250,
 });
 
-function clearGallery() {
+export function clearGallery() {
     gallery.innerHTML = "";
 }
 
