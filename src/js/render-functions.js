@@ -3,18 +3,20 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 const gallery = document.querySelector(".gallery");
 
+// Ініціалізація SimpleLightbox один раз
 const lightbox = new SimpleLightbox(".gallery a", {
     captionsData: "alt",
     captionDelay: 250,
 });
 
-export function clearGallery() {
+// Функція очищення галереї
+function clearGallery() {
     gallery.innerHTML = "";
 }
 
 export function displayImages(images) {
-    clearGallery();
-    
+    clearGallery(); // Очищення галереї перед додаванням нових зображень
+
     const markup = images
         .map(
             (image) => `
@@ -37,6 +39,7 @@ export function displayImages(images) {
         .join("");
 
     gallery.insertAdjacentHTML('beforeend', markup);
-    
+
+    // Оновлення lightbox після додавання нових зображень
     lightbox.refresh();
 }

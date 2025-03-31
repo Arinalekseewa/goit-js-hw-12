@@ -38,7 +38,7 @@ form.addEventListener("submit", async (evt) => {
         btnLoadMore.style.display = "none"; // Ховаємо кнопку перед новим пошуком
     }
 
-    loadingMessage.style.display = "block";
+    if (loadingMessage) loadingMessage.style.display = "block"; // Показуємо лоадер
 
     try {
         const { images, totalHits: newTotalHits } = await axiosImages(userQuery, currentPage);
@@ -51,6 +51,7 @@ form.addEventListener("submit", async (evt) => {
                 messageColor: "#FAFAFB",
                 backgroundColor: "#EF4040"
             });
+            btnLoadMore.style.display = "none"; // Ховаємо кнопку, якщо немає результатів
             return;
         }
 
@@ -69,26 +70,30 @@ form.addEventListener("submit", async (evt) => {
             backgroundColor: "#EF4040"
         });
     } finally {
-        loadingMessage.style.display = "none";
+        if (loadingMessage) loadingMessage.style.display = "none"; // Ховаємо лоадер
     }
 
     form.reset();
 });
 
 btnLoadMore.addEventListener("click", async () => {
-    loadingBottom.style.display = "block";
+    btnLoadMore.style.display = "none"; // Ховаємо кнопку перед запитом
+    if (loadingBottom) loadingBottom.style.display = "block"; // Показуємо лоадер
 
     try {
         const { images } = await axiosImages(userQuery, currentPage);
 
-        if (images?.length) {
-            displayImages(images, currentPage);
-            currentPage++;
-
-            // Приховуємо кнопку, якщо більше немає зображень
-            btnLoadMore.style.display = currentPage * 15 < totalHits ? "block" : "none";
-            scrollToNextImages();
+        if (!images?.length) {
+            btnLoadMore.style.display = "none"; // Якщо зображень немає, приховуємо кнопку
+            return;
         }
+
+        displayImages(images, currentPage);
+        currentPage++;
+
+        // Відображаємо кнопку, якщо ще є зображення
+        btnLoadMore.style.display = currentPage * 15 < totalHits ? "block" : "none";
+        scrollToNextImages();
     } catch (error) {
         console.error(error);
         iziToast.error({
@@ -98,7 +103,7 @@ btnLoadMore.addEventListener("click", async () => {
             backgroundColor: "#EF4040"
         });
     } finally {
-        loadingBottom.style.display = "none";
+        if (loadingBottom) loadingBottom.style.display = "none"; // Ховаємо лоадер після завантаження
     }
 });
 
