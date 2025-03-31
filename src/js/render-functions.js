@@ -10,7 +10,7 @@ const lightbox = new SimpleLightbox(".gallery a", {
 });
 
 // Функція очищення галереї
-function clearGallery() {
+export function clearGallery() {
     gallery.innerHTML = "";
 }
 
